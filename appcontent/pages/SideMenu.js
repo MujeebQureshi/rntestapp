@@ -5,7 +5,31 @@ import {NavigationActions} from 'react-navigation';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+
 class SideMenu extends Component {
+  //this.navigateToScreen('Landing')
+  constructor(){
+	  super();
+    this.state = { myText: "Hello", 
+      menulist : [
+        {
+          menuId : 1,
+          menuName : "Menu Item 1",
+          menuPage : "Page1"
+        },
+        {
+          menuId : 2,
+          menuName : "Menu Item 2",
+          menuPage : "Page2"
+        },
+        {
+          menuId : 3,
+          menuName : "Menu Item 3",
+          menuPage : "Page3"
+        }
+      ] 
+    };
+  }
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -13,30 +37,27 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
 
+  Dothis = ()=>{
+    this.setState(//previousState => (
+        { myText: "hello boizzz" }
+      //)
+    );
+  }
+  
   render () {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View>
-            <Text style={styles.sectionHeadingStyle}>
-              Section 1
-            </Text>
-            <View style={styles.navSectionStyle}>
-              <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Landing')}>
-              Main
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Text style={styles.sectionHeadingStyle}>
-              Section 2
-            </Text>
-            <View style={styles.navSectionStyle}>
-              <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Detail')}>
-                Detail
-              </Text>
-            </View>            
-          </View>
+        {this.state.menulist.map((obj, key) => {
+            return (
+              <View style={styles.navSectionStyle} key={key}>
+                <Text style={styles.navItemStyle} onPress={this.navigateToScreen(obj.menuPage)}>
+                {obj.menuName}
+                </Text>
+              </View>
+            );
+          })
+        }
         </ScrollView>
         <View style={styles.footerContainer}>
           <Text>This is my fixed footer</Text>
@@ -56,7 +77,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   navItemStyle: {
-    padding: 10
+    padding: 10,
+    fontSize: 15
   },
   navSectionStyle: {
     backgroundColor: 'lightgrey'
